@@ -20,7 +20,7 @@
 
 @implementation CDVShake
 
-NSString* callbackId = nil;
+NSString* _callbackId = nil;
     
 - (void)pluginInitialize
 {
@@ -37,7 +37,7 @@ NSString* callbackId = nil;
 	NSLog(@"CDVShake::startWatch");
 
     // store callback id to be used, when device is shaken
-    callbackId = command.callbackId;
+    _callbackId = command.callbackId;
 }
 
 - (void)stopWatch:(CDVInvokedUrlCommand*)command
@@ -45,7 +45,7 @@ NSString* callbackId = nil;
 	NSLog(@"CDVShake::stopWatch");
 
     // remove callback id
-    callbackId = nil;
+    _callbackId = nil;
 }
 
 - (void)deviceShaken
@@ -54,10 +54,10 @@ NSString* callbackId = nil;
     
     // device was shaken
     // inform app using the stored callback id
-    if (callbackId != nil) {
+    if (_callbackId != nil) {
         CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [pluginResult setKeepCallbackAsBool:YES];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:_callbackId];
     }
 }
 
